@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Fuel Expenditure Choropleth Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- those are added for about the project model  -- Start -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <!-- those are added for about the project model-- End -->
+
+
+    <!-- load in local self-contained data files -->
+    <script src="us-states.js"></script>
+
+
+  <style>
+    #map { height: 88vh;}
+    #controls { padding: 10px; background: white; }
+    .legend { background: white; padding: 6px 8px; font: 14px Arial, sans-serif; }
+    .legend i { width: 18px; height: 18px; float: left; margin-right: 8px; opacity: 0.7; }
+  </style>
+</head>
+<body>
+
+  <div class="container-fluid">
+    <!-- 1st row - map title  -->
+    <div class="row">
+      <div class="col-md-6">
+        <h3>PUt your web map title here</h3>
+  
+      </div>
+  
+      <!-- those are about the project modal  -- START -->
+  
+      <!-- <div class="container"> -->
+      <div class="col-md-6">
+  
+        <!-- Trigger the modal with a button -->
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">About the
+          project</button>
+  
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+  
+          <!-- By default, modals are medium in size. -->
+          <div class="modal-dialog">
+  
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">About the XXX interative web map</h4>
+              </div>
+              <div class="modal-body">
+                <p>XXXX.</p>
+              </div>
+  
+  
+              <h4 class="modal-title">ABout the team</h4>
+            </div>
+            <div class="modal-body">
+              <ol>
+                <li>Team member: <a href="XXX" target="_blank">studnet name </a> (email), click name and link to your
+                  website</li> <!-- replace the XXX to your personal website -->
+                <li>Team member: <a href="XXX" target="_blank">studnet name </a> (email), click name and link to your
+                  website</li> <!-- replace the XXX to your personal website -->
+                <li>Team member: <a href="XXX" target="_blank">studnet name </a> (email), click name and link to your
+                  website</li> <!-- replace the XXX to your personal website -->
+                <li>Team member: <a href="https://www.lipingyang.org" target="_blank">studnet name </a> (email), click
+                  name and link to your website</li> <!-- replace the XXX to your personal website -->
+                <li>Project advisor: <a href="https://www.lipingyang.org" target="_blank">Dr. Liping Yang</a> (Course
+                  Instructor for GEOG 485L/585L - Interactive Web Mapping)</li>
+              </ol>
+            </div>
+  
+  
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+  
+        </div>
+        <!-- </div> -->
+  
+      </div>
+  
+      <div>
+      <!-- <div> -->
+  
+  
+
+
+  
+
+  <!-- those are  for about the project modal  -- END -->
+
+
+
+
+
+<div id="controls">
+  <label for="category">Select Expenditure Type:</label>
+  <select id="category">
+    <option value="total">Total</option>
+    <option value="crudeOil">Crude Oil</option>
+    <option value="refining">Refining</option>
+    <option value="distribution">Distribution</option>
+    <option value="taxes">Taxes</option>
+    <option value="fuelCost">Fuel Cost</option>
+  </select>
+</div>
+<div id="map"></div>
+
+<script>
+const fuelData = {
+  'California': 57600, 'Texas': 46140, 'Florida': 31184, 'New York': 25821,
+  'Pennsylvania': 24625, 'Illinois': 20900, 'Ohio': 20803, 'Georgia': 20011,
+  'North Carolina': 19766, 'Michigan': 16933, 'New Jersey': 16821, 'Virginia': 16554,
+  'Washington': 15899, 'Arizona': 15432, 'Massachusetts': 15045, 'Tennessee': 13987,
+  'Indiana': 13763, 'Missouri': 13450, 'Maryland': 12987, 'Wisconsin': 12744,
+  'Colorado': 12003, 'Minnesota': 11565, 'South Carolina': 11234, 'Alabama': 11009,
+  'Louisiana': 10880, 'Kentucky': 10733, 'Oregon': 10321, 'Oklahoma': 10255,
+  'Connecticut': 9832, 'Iowa': 9687, 'Utah': 9432, 'Nevada': 9021, 'Arkansas': 8980,
+  'Mississippi': 8867, 'Kansas': 8774, 'New Mexico': 8355, 'Nebraska': 7998,
+  'West Virginia': 7770, 'Idaho': 7550, 'Hawaii': 7432, 'New Hampshire': 7211,
+  'Maine': 7088, 'Rhode Island': 6990, 'Montana': 6630, 'Delaware': 6490,
+  'South Dakota': 6340, 'North Dakota': 5980, 'Alaska': 5700, 'Vermont': 5560,
+  'Wyoming': 5033, 'District of Columbia': 3000
+};
+
+const breakdown = {
+  crudeOil: 0.50, refining: 0.15, distribution: 0.10, taxes: 0.15, fuelCost: 0.10
+};
+
+const colorScales = {
+  total: ['#FFEDA0', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026'],
+  crudeOil: ['#ffffff', '#cccccc', '#999999', '#666666', '#333333', '#000000'],
+  refining: ['#ffffcc', '#ffeb99', '#ffd966', '#ffbf00', '#e6ac00', '#cc9900'],
+  distribution: ['#e0ffff', '#b2ffff', '#80ffff', '#4dffff', '#1affff', '#00cccc'],
+  taxes: ['#e6f2ff', '#99ccff', '#66b3ff', '#3399ff', '#0073e6', '#0059b3'],
+  fuelCost: ['#e6ffe6', '#b3ffb3', '#80ff80', '#4dff4d', '#1aff1a', '#00cc00']
+};
+
+const thresholds = {
+  total:     [0, 10, 20, 30, 40, 50, 60],
+  crudeOil:  [0, 5, 10, 15, 20, 25, 30],
+  refining:  [0, 2, 4, 6, 8, 10, 12],
+  distribution: [0, 1, 2, 3, 4, 5, 6],
+  taxes:     [0, 2, 4, 6, 8, 10, 12],
+  fuelCost:  [0, 1, 2, 3, 4, 5, 6]
+};
+
+const map = L.map('map').setView([37.8, -96],5);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
+
+let geoLayer, legend;
+
+// const geojsonUrl = 'https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json';
+//this is an exmaple how dr. Yang make the data file self-contained, so your team's web app not rely on other webiste to maek your web map running
+const geojsonUrl = 'us-states.json';
+
+
+function getColor(value, category) {
+  const scale = colorScales[category];
+  const thresh = thresholds[category];
+  for (let i = thresh.length - 1; i >= 0; i--) {
+    if (value > thresh[i]) return scale[i];
+  }
+  return scale[0];
+}
+
+function styleFeature(feature, category) {
+  const state = feature.properties.name;
+  const base = fuelData[state] || 0;
+  const value = category === 'total' ? base : base * breakdown[category];
+  const valueInMillions = value / 1000;
+  return {
+    fillColor: getColor(valueInMillions, category),
+    weight: 1,
+    color: 'gray',
+    fillOpacity: 0.7
+  };
+}
+
+//this is the old updateCoroplethMap function when we load the US state joson from github
+
+// function updateChoropleth(category) {
+
+// //replace  fetch(geojsonUrl).then(res => res.json()).then(json => { ... }); 
+// //to
+// //  const json = usStatesGeoJson; 
+// // when we have a local file for the geojson file, inread of reading it from githu url.
+//   fetch(geojsonUrl)
+//     .then(res => res.json())
+//     .then(json => {
+//       if (geoLayer) map.removeLayer(geoLayer);
+//       geoLayer = L.geoJson(json, {
+//         style: f => styleFeature(f, category),
+//         onEachFeature: (feature, layer) => {
+//           const state = feature.properties.name;
+//           const base = fuelData[state] || 0;
+//           const value = category === 'total' ? base : base * breakdown[category];
+//           const millions = (value / 1000).toFixed(2);
+//           layer.bindPopup(`<strong>${state}</strong><br>${category} expenditure: $${millions}M`);
+//         }
+//       }).addTo(map);
+//       updateLegend(category);
+//     });
+// }
+
+
+
+
+
+// START: this is the new version of  "updateCoroplethMap" function when we read  the local US state joson from github (which is self-conatined in our own github repo)
+// Function to update the choropleth map
+function updateChoropleth(category) {
+  const json = usStatesGeoJson;
+  if (geoLayer) map.removeLayer(geoLayer);
+  geoLayer = L.geoJson(json, {
+    style: f => styleFeature(f, category),
+    onEachFeature: (feature, layer) => {
+      const state = feature.properties.name;
+      const base = fuelData[state] || 0;
+      const value = category === 'total' ? base : base * breakdown[category];
+      const millions = (value / 1000).toFixed(2);
+      layer.bindPopup(`<strong>${state}</strong><br>${category} expenditure: $${millions}M`);
+    }
+  }).addTo(map);
+  updateLegend(category);
+}
+
+// END:  this is the new version of  "updateCoroplethMap" function when we read  the local US state joson from github (which is self-conatined in our own github repo)
+
+
+function updateLegend(category) {
+  if (legend) map.removeControl(legend);
+  const thresh = thresholds[category];
+  const scale = colorScales[category];
+
+  legend = L.control({ position: 'bottomright' });
+  legend.onAdd = function () {
+    const div = L.DomUtil.create('div', 'legend');
+    let labels = [];
+    div.innerHTML = `<b>${category} (Million USD)</b><br>`;
+    for (let i = 0; i < thresh.length - 1; i++) {
+      labels.push(
+        `<i style="background:${scale[i+1]}"></i> ${thresh[i]}M–${thresh[i+1]}M`
+      );
+    }
+    labels.push(`<i style="background:${scale[scale.length - 1]}"></i> ${thresh[thresh.length - 1]}M+`);
+    div.innerHTML += labels.join('<br>');
+    return div;
+  };
+  legend.addTo(map);
+}
+
+
+
+
+
+document.getElementById('category').addEventListener('change', e => updateChoropleth(e.target.value));
+updateChoropleth('total');
+</script>
+
+
+
+
+
+
+
+</body>
+</html>
