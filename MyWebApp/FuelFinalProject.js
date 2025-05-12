@@ -92,7 +92,7 @@ const generateMapData = (type) => {
       ];
       title = 'Crude Oil Expenditure (Millions)';
       break;
-      //crude oil color scales is red 
+      //crude oil color scales is black because it is the color of crude oil
     case 'refining':
       colorscale = [
         [0, 'rgb(255, 255, 204)'],

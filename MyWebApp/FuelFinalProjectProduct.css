@@ -1,0 +1,130 @@
+/* Global Styles */
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #f9f5f3, #ffffff);
+}
+
+/* Filter Section */
+#filters {
+  padding: 20px;
+  background: #ffffff;
+  margin: 20px auto;
+  width: 90%;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Dropdown Menu */
+select {
+  padding: 10px 20px;
+  margin: 10px 5px;
+  font-size: 16px;
+  border: 1px solid #800000;
+  border-radius: 6px;
+  background-color: #f7f7f7;
+  color: #333;
+  cursor: pointer;
+}
+
+select:hover {
+  background-color: #e6e6e6;
+}
+
+/* Title Styling */
+#mapTitle {
+  font-size: 28px;
+  color: #800000;
+  margin-bottom: 20px;
+}
+
+/* Map Container */
+#map {
+  height: 80vh;
+  border: 3px solid #800000;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  background: #f7f7f7;
+}
+
+/* Info Box for Selected State */
+#stateInfoBox {
+  background: #ffffff;
+  border: 2px solid #800000;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+#stateInfoBox h4 {
+  color: #800000;
+  margin-bottom: 15px;
+}
+
+#stateInfoBox ul {
+  list-style-type: none;
+  padding: 0;
+  font-size: 16px;
+  color: #333;
+}
+
+#stateInfoBox li {
+  margin: 6px 0;
+}
+
+/* Footer Styling */
+#footer {
+  width: 90%;
+  margin: 30px auto;
+  background: #f7fbff;
+  padding: 20px;
+  border: 2px solid #800000;
+  border-radius: 12px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+#footer h4 {
+  margin-top: 20px;
+  color: #2c3e50;
+}
+
+#footer ul {
+  list-style-type: none;
+  padding: 0;
+  font-size: 16px;
+}
+
+#footer ul li {
+  margin: 10px 0;
+}
+
+#footer a {
+  color: #800000;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+#footer a:hover {
+  text-decoration: underline;
+}
+
+/* Buttons */
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  background: #800000;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #8B0000;
+}

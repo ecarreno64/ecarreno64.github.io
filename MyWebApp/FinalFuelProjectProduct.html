@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>U.S. Fuel Expenditure Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Plotly Library -->
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+
+  <!-- CSS Links -->
+  <link rel="stylesheet" href="FuelFinalProjectProduct.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Filter Controls -->
+  <div id="filters">
+    <select id="expenditureType" onchange="updateMapAndTitle()">
+      <option value="total">Total Expenditure</option>
+      <option value="crudeOil">Crude Oil</option>
+      <option value="refining">Refining</option>
+      <option value="distribution">Distribution</option>
+      <option value="taxes">Taxes</option>
+      <option value="fuelCost">Fuel Cost</option>
+    </select>
+  </div>
+
+  <!-- Dynamic Title -->
+  <h2 id="mapTitle" class="text-center mt-3">2023 Motor Gasoline Total Expenditure by State</h2>
+
+  <!-- Map and Info Panel -->
+  <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+    <div id="map" style="flex: 1 1 65%; min-width: 300px;"></div>
+    <div id="stateInfoBox" style="flex: 1 1 30%; min-width: 250px;" class="info-box">
+      <h4>Selected State Info</h4>
+      <p>Select a state to see details here.</p>
+    </div>
+  </div>
+
+  <!-- Footer Section -->
+  <div id="footer">
+    <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#aboutModal">
+      About This Project
+    </button>
+    <h4 class="mt-4">References</h4>
+    <ul>
+      <li><a href="https://cdn.plot.ly/plotly-2.27.0.min.js" target="_blank">Plotly.js v2.27.0</a></li>
+      <li><a href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" target="_blank">Bootstrap 5 CSS</a></li>
+      <li><a href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" target="_blank">Bootstrap 5 JS</a></li>
+      <li><a href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" target="_blank">Google Fonts – Roboto</a></li>
+      <li><a href="https://www.eia.gov/" target="_blank">U.S. Energy Information Administration</a></li>
+      <li><a href="https://www.eia.gov/state/seds/data.php?incfile=/state/seds/sep_fuel/html/fuel_mg.html&sid=US" target="_blank">EIA SEDS Fuel Expenditure by State</a></li>
+    </ul>
+  </div>
+
+  <!-- About Modal -->
+  <div class="modal fade" id="aboutModal" tabindex="-1" aria-labelledby="aboutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="aboutModalLabel">About This Web App</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h6><strong>About the Project</strong></h6>
+          <p>This interactive web app displays U.S. fuel expenditure data by state using a choropleth map.
+             Users can explore breakdowns by fuel type, distribution, and taxes. It is designed for researchers, students, and the general public.</p>
+          <h6><strong>Team Members</strong></h6>
+          <ul>
+            <li><a href="https://github.com/TinsayeJ505/TinsayeJ505.github.io" target="_blank">Tinsaye Jensen</a> (tinsayej@unm.edu)</li>
+            <li><a href="https://github.com/ecarreno64/ecarreno64.github.io" target="_blank">Emelina Carreno</a> (ecarreno64@unm.edu)</li>
+            <li><a href="https://github.com/AeddenKing/AeddenKing.github.io" target="_blank">Aeddan King</a> (aking19@unm.edu)</li>
+            <li>William Holmes (wholmes@unm.edu)</li>
+          </ul>
+          <p>Instructor: <a href="http://www.lipingyang.org" target="_blank">Dr. Liping Yang</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS Files (placed last for load order) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="FuelFinalProduct.js"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Interactive Gasoline Expenditures Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="FuelFinalProject.js"></script>
+  <link rel="stylesheet" href="FuelFinalProject.css" />
+</head>
+
+<body>
+     <div id="filters">
+        <select id="expenditureType" onchange="updateMap()">
+          <option value="total">Total Expenditure</option>
+          <option value="crudeOil">Crude Oil</option> 
+          <option value="refining">Refining</option>
+          <option value="distribution">Distribution</option> 
+          <option value="taxes">Taxes</option> 
+          <option value="fuelCost">Fuel Cost</option>
+        </select>
+       <button onclick="compareStates()">Compare Selected States</button>
+      </div>
+    <div id="map"></div>
+    <div id="chart"></div>
+</body>
+</html>
